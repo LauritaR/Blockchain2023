@@ -1,6 +1,8 @@
 #include "headers.h"
 
 int user_input_request(){
+    int ans;
+    char yn, ni;
     SetConsoleOutputCP(CP_UTF8);
     cout<<"-----Hash generatorius-----\n";
     cout<<endl;
@@ -8,4 +10,46 @@ int user_input_request(){
     cout<<endl;
     cout<<"1. Generuoti hash'ą jūsų tekstui.\n";
     cout<<"2. Testavimas.\n";
+    cin>>ans;
+    cout<<"Pasirinkote opciją: "<<ans<<"\n";
+    cout<<"Ar norite tęsti?(y/n)  \n";
+    cin>>yn;
+    while(true){
+    if(yn=='y')
+    {
+       return ans;
+    }
+    else if(yn=='n'){
+        cout<<"Paleist programą iš naujo(n) ar išeti(i)?(n/i)";
+        cin>>ni;
+        if(ni=='n')
+        user_input_request();
+        else {
+            cout<<"Išeinama iš programos...";
+            exit(0);
+        }
+    } 
 }
+}
+
+int openf_or_manual()
+{
+    char ans;
+    string ans2;
+    SetConsoleOutputCP(CP_UTF8);
+    cout<<"Generuoti hash'ą iš failo(f) ar norite įvesti tekstą rankiniu būdu?(r)?(f/r) \n";
+    cin>>ans;
+    if(ans=='f')
+    {
+        cout<<"Parašykite failo pavadinimą (.txt formatu):  \n";
+        cin>>ans2;
+        ifstream UserFile(ans2);
+        //po šito turėtų būti hash'o generavimas    
+    }
+    else if(ans=='r')
+    {
+        cout<<"Parašykite tekstą:  ";
+        cin>>ans2;
+        //vėl čia hasho generavimas 
+    }
+} 
