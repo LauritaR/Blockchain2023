@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "hash.cpp"
 
 int user_input_request(){
     int ans;
@@ -43,13 +43,43 @@ int openf_or_manual()
     {
         cout<<"Parašykite failo pavadinimą (.txt formatu):  \n";
         cin>>ans2;
+        stringstream file_str;
         ifstream UserFile(ans2);
-        //po šito turėtų būti hash'o generavimas    
+        file_str<<UserFile.rdbuf();
+        string input=file_str.str();
+        string output=hashed(input);
+        cout<<output<<endl;    
     }
     else if(ans=='r')
     {
         cout<<"Parašykite tekstą:  ";
         cin>>ans2;
-        //vėl čia hasho generavimas 
+        string output=hashed(ans2);
+        cout<<output<<endl;
     }
 } 
+
+
+void generateF(string filename, int num)
+{  
+    srand(static_cast<unsigned int>(time(NULL)));
+    RandInt rnd(0, num);
+    ofstream genr(filename); 
+  
+    if (!genr.is_open()) {
+        std::cerr << "Failed to open file: " << filename << std::endl;
+        return;
+    }
+    string str="";
+   for(int i=0;i<num;i++)
+    {
+        int randIndx=rnd();
+        str.push_back(symbols[randIndx%(sizeof(symbols)-1)]);
+        randIndx++;
+    } 
+
+    genr<<str;
+    genr.close();
+
+}
+
