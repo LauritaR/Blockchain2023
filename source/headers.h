@@ -1,15 +1,21 @@
 #include <iostream>
 using namespace std;
-#include "Windows.h"
+#include <Windows.h>
 #include <fstream>
 #include <bitset>
+#include <functional>
 #include <string>
 #include <sstream>
 #include<vector>
 #include<ctime>
 #include<cstdlib>
+#include<iomanip>
+#include<numeric>
+#include<algorithm>
 #include <map>
 #include<random>
+#include<unordered_set>
+#include<chrono>
 
 map<string,string> hex_map{
     {"0000","0"},
@@ -45,3 +51,5 @@ class RandInt{
     std::mt19937 mt;
     std::uniform_int_distribution<int> dist;
 };
+
+
