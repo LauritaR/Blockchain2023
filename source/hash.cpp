@@ -1,6 +1,7 @@
 #include "headers.h"
-string code=" 00111001 00111001";
-string asciiToBin( string& input_EX)//fja keicia ascii i binary ir isveda viska 32 bits per eilute
+
+string code="00111001 00111001";
+string asciiToBin( string input_EX)
 {
     string binRes="";
     binRes.reserve(input_EX.size() * 8);
@@ -12,6 +13,7 @@ string asciiToBin( string& input_EX)//fja keicia ascii i binary ir isveda viska 
     
     return binRes;
 }
+
 string shiftR(string& input, int positions)
 {
     string shifted=input;    
@@ -35,6 +37,7 @@ string shiftR(string& input, int positions)
 
 return shifted;
 }
+
 string binToHex(string input)
 {
     string hexed="";
@@ -44,6 +47,7 @@ string binToHex(string input)
     }
     return hexed;
 }
+
 string addition_OR(string input1, string input2)
 {
     string added_input = "";
@@ -63,7 +67,6 @@ string padding_of_bin(string& binRes_EX)
 
     string binRes_padded=binRes_EX+'1';
   
-    // Calculate k
     int k = 0;
     size_t length=binRes_EX.length();
     while ((length + 1 + k) % 256 != 192) {
@@ -72,38 +75,22 @@ string padding_of_bin(string& binRes_EX)
 
     binRes_padded+=string(k,'0');
     string lengthBin=bitset<64> (length).to_string(); 
-    string binRes_padded_withLength=binRes_padded+(shiftR(lengthBin,1));//paskutiniai 64 bitai skirti irasyti zinutes ilgiui padaugintai is 8
+    string binRes_padded_withLength=binRes_padded+(shiftR(lengthBin,1));
      for (int i = 64; i < binRes_padded_withLength.length(); i += 65) {
         binRes_padded_withLength.insert(i, "\n");
     }
     return binRes_padded_withLength;
 }  
 
-vector<string> padded_stringDiv(string& binRes_padded_withLength)
-{
-    vector<string> div;
-    int div_size=4;
-    for (int i=0;i<binRes_padded_withLength.length();i+=div_size)
-    {
-        div.push_back(binRes_padded_withLength.substr(i, div_size));
-    }
-
-    return div;
-} 
-
-
-
 string computations(string &div_padded_bin_str)
 {
     unsigned int hash=154568778, code_local=46886, secret=7531,a=7;
 
     for (char c : div_padded_bin_str) {
-        hash = ((hash<<5) * a + static_cast<unsigned int>(c)+div_padded_bin_str.at(c)+div_padded_bin_str.front())-((hash>>2)%10);
+        hash = ((hash<<5) * a + static_cast<unsigned int>(c)+div_padded_bin_str.at(c)+div_padded_bin_str.front())-((hash>>2)%10)+c;
         a++;
     }
   
-    cout<<hash<<endl;
-    cout<<endl;
     string final=to_string(hash);
     int var=64;
     int var2=128;
@@ -114,14 +101,7 @@ string computations(string &div_padded_bin_str)
         var++; 
     }while(final.size()!=32);
 
-    int block = final.size()/8;
-
-   
-
     string computed=asciiToBin(final);
-
-    string shift_by1=shiftR(computed,1);
-   
     string n=shiftR(computed,7); 
     return n;
 }
@@ -131,8 +111,7 @@ string computations(string &div_padded_bin_str)
 string hashed(string &input_EX)
 {
     string ascii_toBin=asciiToBin(input_EX); 
-  string padded=padding_of_bin(ascii_toBin); 
-    /* string div=padded_stringDiv(padded); */
+    string padded=padding_of_bin(ascii_toBin); 
     string computed_together=computations(padded);
     string hex_string=binToHex(computed_together); 
     return hex_string;
