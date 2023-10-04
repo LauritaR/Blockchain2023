@@ -13,7 +13,8 @@
 - Minimaliai pakeitus įvedimą, maišos kodas **keičiasi iš esmės**. 
 
 
-![Alt text](image.png)
+![image](https://github.com/LauritaR/Blockchain2023/assets/116920291/75e583b9-6c15-4010-9e3f-c9d28cbc7ac9)
+
 
 _**1.txt** ir **a.txt** yra vieno simbolio failai, 
 **empty.txt** tuščias, 
@@ -57,9 +58,11 @@ function computations(input):
 
 Failo **konstitucija.txt** hash'avimo laikos buvo matuojamas 5 kartus. Nuo 1 iki 16 eilučių hash'avimo vienu metu, procesas užtrukdavo po 0 s, kai hash'uojamų eilučių kiekis padidėjo ir nuo 32 eilučių iki 512 eilučių didėjo sekundės dalimis.
 
-![Alt text](image-1.png)
+![image](https://github.com/LauritaR/Blockchain2023/assets/116920291/70ba1a1a-78a9-4f48-be1b-a543709406c9)
 
-![Alt text](image-3.png)
+
+![image](https://github.com/LauritaR/Blockchain2023/assets/116920291/6a7bde9b-6645-499c-a979-b155b3de4e5b)
+
 
 ## Atsparumas kolizijai
 
@@ -69,13 +72,16 @@ Failo **konstitucija.txt** hash'avimo laikos buvo matuojamas 5 kartus. Nuo 1 iki
 |100                  |0                |
 |500                  |0                |
 |1000                 |0                |
-![Alt text](image-4.png)
+
+![image](https://github.com/LauritaR/Blockchain2023/assets/116920291/e30fabc6-8908-4727-a8a0-4d3aa6058c9f)
+
 
 ## Lavinos efektas(Avalanche effect)
 
 Atlikus hash funkcijos lavinos efekto tyrimus, gauti tokie rezultatai:
  
- ![Alt text](image-5.png)
+![image](https://github.com/LauritaR/Blockchain2023/assets/116920291/5d86367a-9ca8-41dd-9c0b-e0a091773f3d)
+
 
 
 
