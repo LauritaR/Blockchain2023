@@ -1,40 +1,82 @@
-# Blockchain2023
-Apie algoritmą:
+# Hash generatoriaus kūrimas 
 
-- Kiekviena įvestis turi to paties ilgio išvestį(64 bit hex'as).
-- To paties ilgio įvesties hash'as yra skirtingas.
-- Augant įvesties dydžiui, funkcijos efektyvumas nėra prastėjantis.
-- Funckija nėra visai atspari kolizijai( Iš 100 000 eilučių apie 600 kolizijų).
-- Taip pat, lavinos efekto tyrimo metu, bitų ir hex'ų lygmenyje procentinio skirtumo rodiklis buvo žemiau negu vidutinis.
+## _Eksperimentinių tyrimų ir rezultatų analizė_
 
-Apibendrinant, funkcijos lavinos efekto savybė turi būti pagerinta. 
+### _Apie funkciją_:
+
+- Kiekviena įvestis turi **to paties ilgio išvestį**(64 simbolių hex'as).
+- Funkcija gali priimti bet kokio dydžio įvestį.
+- Tam pačiam įvedimui **išvedimas yra visuomet tas pats**. 
+- To paties ilgio įvesčių hash'as yra skirtingas.
+- Augant įvesties dydžiui, funkcijos efektyvumas keičiasi sekundės dalimis.
+- Funkcija yra **atspari kolizijai**.
+- Minimaliai pakeitus įvedimą, maišos kodas **keičiasi iš esmės**. 
 
 
+![Alt text](image.png)
+
+_**1.txt** ir **a.txt** yra vieno simbolio failai, 
+**empty.txt** tuščias, 
+failai **daug.txt** ir **maziau.txt** yra sudaryti iš daug(>1000) atsitiktinių simbolių, 
+o **new.txt** ir **new2.txt** skiriasi tik vienu simboliu._
+
+### Pseudokodas: 
 
 
-Pseudocode: 
+function computations(input):
 
-function computations(div_padded_bin_str)
-    hash = 154568778
+    length = length(input) * 8
+    
+    for i from 7 to 0:
+        append input with (length >> (i * 8)) & 0xFF
+    
     code_local = 46886
-    secret = 7531
-    a = 7
+    var = 7
+    secret_rand = 0
+    hash_size = 8
+    hash[hash_size] = {0}
+    
 
-    for each character c in div_padded_bin_str do
-        hash = ((hash << 5) * a + c + div_padded_bin_str[c] + div_padded_bin_str[0]) - ((hash >> 2) % 10)
-        a = a + 1
-
-    final = convertToString(hash)
-    var = 64
-    var2 = 128
-
-    repeat
+    for each c in input:
+   
         secret_rand = (code_local / var) - (var % 10)
-        final = final + ((secret_rand >> 1) % 10 + var % 3)
-        var = var + 1
-    until length of final is 32
+        
+        for i from 0 to hash_size - 1:
+            hash[i] = (hash[i] XOR c) + secret_rand * (i + 1)
+            hash[i] = (hash[i] XOR (hash[i] << 15) OR (hash[i] >> 21)) XOR 0x85ebca6b XOR 0xc2b2ae35
+            var = var + 1
+    
+    result = ""
+    for i from 0 to hash_size - 1:
+        result = result + hexadecimal representation of hash[i] with 8 digits padded with zeros
+    
+    return result
 
-    computed = asciiToBinary(final)
-    n = shiftRight(computed, 7)
 
-    return n
+## Hash funkcijos efektyvumas 
+
+Failo **konstitucija.txt** hash'avimo laikos buvo matuojamas 5 kartus. Nuo 1 iki 16 eilučių hash'avimo vienu metu, procesas užtrukdavo po 0 s, kai hash'uojamų eilučių kiekis padidėjo ir nuo 32 eilučių iki 512 eilučių didėjo sekundės dalimis.
+
+![Alt text](image-1.png)
+
+![Alt text](image-3.png)
+
+## Atsparumas kolizijai
+
+| 25 tūkst. porų ilgis|Kolizijų skaičius|
+|---------------------|-----------------|
+|10                   |0                |
+|100                  |0                |
+|500                  |0                |
+|1000                 |0                |
+![Alt text](image-4.png)
+
+## Lavinos efektas(Avalanche effect)
+
+Atlikus hash funkcijos lavinos efekto tyrimus, gauti tokie rezultatai:
+ 
+ ![Alt text](image-5.png)
+
+
+
+

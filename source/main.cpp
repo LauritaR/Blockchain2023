@@ -1,12 +1,13 @@
 #include "test.cpp" 
-
+#include "additional.cpp"
 int user_input_request()
 {
     SetConsoleOutputCP(CP_UTF8);
     int ans;
     char yn, ni;
-    
+    cout<<"--------------------------\n";
     cout<<"-----Hash generatorius-----\n";
+    cout<<"--------------------------\n";
     cout<<endl;
     cout<<"Pasirinkite norimą opciją:   \n";
     cout<<endl;
@@ -50,49 +51,28 @@ void openf_or_manual()
         ifstream UserFile(ans2);
         file_str<<UserFile.rdbuf();
         string input=file_str.str();
-        string output=hashed(input);
+        string output=computations(input);
         cout<<output<<endl;    
     }
     else if(ans=='r')
     {
         cout<<"Parašykite tekstą:  ";
         cin>>ans2;
-        string output=hashed(ans2);
+        string output=computations(ans2);
         cout<<output<<endl;
     }
 } 
-
-
-void generateF(string filename, int num)
-{  
-    srand(static_cast<unsigned int>(time(NULL)));
-    RandInt rnd(0, num);
-    ofstream genr(filename); 
-  
-    if (!genr.is_open()) {
-        std::cerr << "Failed to open file: " << filename << std::endl;
-        return;
-    }
-    string str="";
-   for(int i=0;i<num;i++)
-    {
-        int randIndx=rnd();
-        str.push_back(symbols[randIndx%(sizeof(symbols)-1)]);
-        randIndx++;
-    } 
-
-    genr<<str;
-    genr.close();
-
-}
 
 void test_option()
 {
    int pageidavimas;
     cout<<"Pasirinkote testavimo opciją \n";
-    cout<<"Ką pageidaujate testuoti? \n  3 konstitucija.txt(efektyvumas) \n 4 lavinos efektas \n 5 atsparumas kolizijai  ";
+    cout<<"Ką pageidaujate testuoti? \n 2 default failai \n 3 konstitucija.txt(efektyvumas) \n 4 lavinos efektas \n 5 atsparumas kolizijai  \n ";
     cin>>pageidavimas;
     switch(pageidavimas){
+      case 2:
+        defaultFileTest(); 
+        break;
       case 3:
         konstitucijaTest();
         break;
@@ -102,6 +82,7 @@ void test_option()
       case 5:
         collision();
         break;
+     
       default:
         cout<<"Netinkama pasirinkimo reikšmė\n";
     } 

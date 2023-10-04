@@ -1,29 +1,70 @@
 #include"hash.cpp"
+
+void defaultFileTest()
+{
+    string filenames[]={
+        "1.txt",
+        "a.txt",
+        "empty.txt",
+        "daug.txt",
+        "maziau.txt",
+        "new.txt",
+        "new2.txt"
+    };
+    for(string& filename:filenames)
+    {
+   
+        ifstream UserFile(filename);
+        if(UserFile.is_open())
+        {
+            stringstream file_str;
+            file_str<<UserFile.rdbuf();
+            string input=file_str.str();
+            string output=computations(input);
+
+            cout<<"File: "<<filename<<"\n";
+            cout<<"Output: "<<output<<"\n";
+            UserFile.close();
+        }
+        else{
+            cerr<<"Negalima atidaryti failo: "<< filename<<"\n";
+        }
+        
+    }
+}
+
 //2
 void konstitucijaTest()
 {
     string row;
-    int i=0;int j=1;
+    int num_lines_tohash=1;
+    int total_lines=0;
     stringstream konst;
-    ifstream konstitucija("konstitucija.txt");
+    string filename="konstitucija.txt";
+    ifstream konstitucija(filename);
+    while(getline(konstitucija,row))
+    {
+        total_lines++;
+    }
+    konstitucija.clear();
 
-        while(!konstitucija.eof())
+
+        while(num_lines_tohash<=total_lines)
         {
-            i++;
-            getline(konstitucija, row);
-            konst<<row<<" ";
-            if(i==j)
-            {
-                auto start=std::chrono::high_resolution_clock::now();
-                hashed(row);
-                auto end=std::chrono::high_resolution_clock::now();
-                std::chrono::duration<double> difference = end - start;
-                cout <<"hashavimas su " <<j<<" eiluciu uztruko: " << difference.count() << " s\n";
-                j*=2;
-            }
+         auto start=std::chrono::high_resolution_clock::now();
+         for(int i=0;i<num_lines_tohash;++i)
+         {
+             computations(row);
+         }
+            auto end=std::chrono::high_resolution_clock::now();
 
+        std::chrono::duration<double> difference = end - start;
+        cout <<"hashavimas su " <<num_lines_tohash<<" eiluciu uztruko: " << difference.count() << " s\n";
+        num_lines_tohash*=2;
         }
-}
+    }
+    
+                
 
 int randomLength(int min, int max) {
     return rand() % (max - min + 1) + min;
@@ -43,64 +84,69 @@ int collision()
 {
     srand(static_cast<unsigned int>(time(nullptr)));
     int collisions=0, totalPairs = 100000;
-    ofstream outputFile("poros.txt");
-
-    if (!outputFile.is_open()) {
-        cerr << "Nepavyko atidaryti failo poros.txt" <<endl;
-        return 1;
-    }
+   
 
     for (int i = 0; i < totalPairs / 4; ++i) {
         int length = 10;
         string first = randomString(length);
         string second = randomString(length);
-        outputFile  << first << ", " << second << "\n";
-        if(hashed(first)==hashed(second))
+        if(computations(first)==computations(second))
         {
             collisions++;
         }
     }
-
+    cout<<"10 simobliu poros "<<collisions<<'\n';
     for (int i = 0; i < totalPairs / 4; ++i) {
         int length = 100;
         string first = randomString(length);
         string second = randomString(length);
-        outputFile << first << ", " << second <<"\n";
-         if(hashed(first)==hashed(second))
+         if(computations(first)==computations(second))
         {
             collisions++;
         }
     }
-
+ cout<<"100 simobliu poros "<<collisions<<'\n';
     for (int i = 0; i < totalPairs / 4; ++i) {
         int length = 500;
         string first = randomString(length);
         string second = randomString(length);
-        outputFile  << first << ", " << second << "\n";
-         if(hashed(first)==hashed(second))
+         if(computations(first)==computations(second))
         {
             collisions++;
         }
     }
-
+ cout<<"500 simobliu poros "<<collisions<<'\n';
     for (int i = 0; i < totalPairs / 4; ++i) {
         int length = 1000;
         string first = randomString(length);
         string second = randomString(length);
-        outputFile << first << ", " << second << "\n";
-         if(hashed(first)==hashed(second))
+         if(computations(first)==computations(second))
         {
             collisions++;
         }
     }
+     cout<<"1000 simobliu poros "<<collisions<<'\n';
 
-    outputFile.close();
     
-    cout <<"Sukurtas failas poros.txt" <<endl;
     cout<<"Koliziju sk. : "<<collisions<<endl;
     return 0;
 }
 
+string hexToBin(string input) {
+    string binary = "";
+    
+    for (char hexDigit : input) {
+        char lowercaseHexDigit = tolower(hexDigit);
+    
+        if (HexToBin.find(lowercaseHexDigit) != HexToBin.end()) {
+            binary += HexToBin[lowercaseHexDigit];
+        } else {
+            return "Invalid input";
+        }
+    }
+    
+    return binary;
+}
 int avalanche_effectTest()
 {
     int bitSize=256, hexSize=64;
@@ -112,12 +158,6 @@ int avalanche_effectTest()
     srand(static_cast<unsigned int>(time(nullptr)));
 
     int totalPairs = 100000;
-    ofstream outputFile("6reik_poros.txt");
-
-    if (!outputFile.is_open()) {
-        std::cerr << "Nepavyko atidaryti failo 6reik_poros.txt" << std::endl;
-        return 1;
-    }
 
     for (int i = 0; i < totalPairs; ++i) {
         int length = rand() % 1000 + 1; 
@@ -131,14 +171,11 @@ int avalanche_effectTest()
         char randomChar = 'a' + rand() % 26;
         second[diffIndex] = randomChar;
 
-        
-        outputFile << first << ", " << second << "\n";
+        bitfirst=hexToBin(computations(first));
+        bitsecond=hexToBin(computations(second)); 
 
-        bitfirst=asciiToBin(hashed(first));
-        bitsecond=asciiToBin(hashed(second)); 
-
-        hexfirst=hashed(first);
-        hexsecond=hashed(second);
+        hexfirst=computations(first);
+        hexsecond=computations(second);
 
        for(int j=0;j<256;j++)
         {
@@ -174,20 +211,20 @@ int avalanche_effectTest()
         hexdifference+=HexD; 
 
     }
-
- 
-    cout << "Sukurtas failas 6reik_poros.txt.txt" << std::endl;
     double avgBit=(double(bitdifference) / double(256))/100000*100;
 
     double avgHex=(double(hexdifference) / double(64))/100000*100;
-    cout<<"Min bit"<<bitMin<<endl;
-    cout<<"Min hex"<<hexMin<<endl;
-    cout<<"Max bit"<<bitMax<<endl;
-    cout<<"Max hex"<<hexMax<<endl;
-    cout<<"Avg bit p"<<avgBit<<" %"<<endl;
-    cout<<"Avg hex p"<<avgHex<<" %"<<endl;
-    
-    outputFile.close();
+    double percentBitMin = (static_cast<double>(bitMin) / static_cast<double>(256)) * 100;
+    double percentBitMax = (static_cast<double>(bitMax) / static_cast<double>(256)) * 100;
+    double percentHexMin = (static_cast<double>(hexMin) / static_cast<double>(64)) * 100;
+    double percentHexMax = (static_cast<double>(hexMax) / static_cast<double>(64)) * 100;
+
+    cout<<"Minimalus skirtums bitu lygmenyje "<<percentBitMin<<" %"<<endl;
+    cout<<"Minimalus skirtumas hexu lygmenyje "<<percentHexMin<<" %"<<endl;
+    cout<<"Maksimalus skirtumas bitu lygmenyje "<<percentBitMax<<" %"<<endl;
+    cout<<"Maksimalus skirtumas hexu lygmenyje "<<percentHexMax<<" %"<<endl;
+    cout<<"Vidutiniskas skirtumas bitu lygmenyje "<<avgBit<<" %"<<endl;
+    cout<<"Vidutiniskas skirtumas hexu lygmenyje "<<avgHex<<" %"<<endl;
     return 0; 
 }
 

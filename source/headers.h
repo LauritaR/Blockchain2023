@@ -36,20 +36,24 @@ map<string,string> hex_map{
     {"1111","f"}
 };
 
-const char symbols[]="0123456789"
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-            "abcdefghijklmnopqrstuvwxyz"
-            "!@$%^&*_+-=|;,./<>?";
-
-
-class RandInt{
-    public:
-    RandInt(int low,int high): mt{rd()},dist{low,high}{}
-    int operator()(){return dist(mt);}
-    private:
-    std::random_device rd;
-    std::mt19937 mt;
-    std::uniform_int_distribution<int> dist;
+map<char, string> HexToBin{
+    {'0', "0000"},
+    {'1', "0001"},
+    {'2', "0010"},
+    {'3', "0011"},
+    {'4', "0100"},
+    {'5', "0101"},
+    {'6', "0110"},
+    {'7', "0111"},
+    {'8', "1000"},
+    {'9', "1001"},
+    {'a', "1010"},
+    {'b', "1011"},
+    {'c', "1100"},
+    {'d', "1101"},
+    {'e', "1110"},
+    {'f', "1111"}
 };
+
 
 
