@@ -13,7 +13,7 @@
 - Minimaliai pakeitus įvedimą, maišos kodas **keičiasi iš esmės**. 
 
 
-![image](https://github.com/LauritaR/Blockchain2023/assets/116920291/75e583b9-6c15-4010-9e3f-c9d28cbc7ac9)
+![image](https://github.com/LauritaR/Blockchain2023/assets/116920291/a25cf74e-e7a2-4cf4-be16-536706428e2c)
 
 
 _**1.txt** ir **a.txt** yra vieno simbolio failai, 
