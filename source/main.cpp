@@ -1,5 +1,4 @@
 #include "test.cpp" 
-#include "additional.cpp"
 int user_input_request()
 {
     SetConsoleOutputCP(CP_UTF8);
