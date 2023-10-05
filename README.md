@@ -78,5 +78,18 @@ Atlikus hash funkcijos lavinos efekto tyrimus, gauti tokie rezultatai:
  ![Alt text](image-5.png)
 
 
+## Hash'avimo algoritmų spartos palyginimas
+
+Papildomai buvo atliktas custom hash funkcijos spartos palyginimas su MD5,SHA-1 ir SHA-256 hash funckcijomis(faile _additional.cpp_).
+
+Tyrimo metu naudotas **valdovas.txt** failas. Po 3 tyrimo pakartojimų buvo išgauti tokie vidurkiai:
+
+![Alt text](image-6.png)
+
+![Alt text](image-7.png)
+
+
+### Apibendrinant, custom hash funkcija yra pakankamai lėti, palyginus su kitomis. Dėl to galima teigti, kad  reikia pagerinti custom algoritmo efektyvumą.
+
 
 
