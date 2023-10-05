@@ -90,9 +90,9 @@ Papildomai buvo atliktas custom hash funkcijos spartos palyginimas su MD5,SHA-1 
 
 Tyrimo metu naudotas **valdovas.txt** failas. Po 3 tyrimo pakartojimų buvo išgauti tokie vidurkiai:
 
-![Alt text](image-6.png)
+![image](https://github.com/LauritaR/Blockchain2023/assets/116920291/5621f4b9-a9ef-432a-8713-16f3d86c44f7)
 
-![Alt text](image-7.png)
+![image](https://github.com/LauritaR/Blockchain2023/assets/116920291/3f49eb1d-b36c-48a5-99bb-a9028d4317fd)
 
 
 ### Apibendrinant, custom hash funkcija yra pakankamai lėti, palyginus su kitomis. Dėl to galima teigti, kad  reikia pagerinti custom algoritmo efektyvumą.
