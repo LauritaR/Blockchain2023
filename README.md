@@ -27,8 +27,8 @@ function computations(input):
 
     length = length(input) * 8
     
-    for i from 7 to 0:
-        append input with (length >> (i * 8)) & 0xFF
+    for i from 56 to 0 by -8:
+        input += char((length >> i) & 0xFF)
     
     code_local = 46886
     var = 7

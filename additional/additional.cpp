@@ -37,10 +37,6 @@ string computations(string &input)
     input += char((length >> 8) & 0xFF);
     input += char(length & 0xFF);
  
-    for (int i = 7; i >= 0; i--) {
-        uint8_t byte = static_cast<uint8_t>((length >> (i * 8)) & 0xFF);
-        input += static_cast<char>(byte);
-    }
 
     int  code_local=46886,var=7;
     int secret_rand;
